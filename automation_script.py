@@ -1,35 +1,58 @@
+import os
+import sys
+
 import requests
-import json
+import urllib3
 
-# Dummy values
-controller_url = "https://avi-controller.local"
-username = "dummy-user"
-password = "dummy-pass"
 
-# Disable warnings for demo (not recommended in production)
-requests.packages.urllib3.disable_warnings()
+def required_env(name: str) -> str:
+    value = os.getenv(name)
+    if not value:
+        raise RuntimeError(f"Missing required environment variable: {name}")
+    return value
 
-# Authenticate
-session = requests.session()
-login_url = f"{controller_url}/login"
-login_payload = {"username": username, "password": password}
-resp = session.post(login_url, json=login_payload, verify=False)
 
-if resp.ok:
-    print("✅ Login Successful")
+def main() -> int:
+    controller_url = required_env("AVI_CONTROLLER_URL").rstrip("/")
+    username = required_env("AVI_USERNAME")
+    password = required_env("AVI_PASSWORD")
+    tenant_name = os.getenv("AVI_TENANT_NAME", "test-tenant")
+    tenant_description = os.getenv("AVI_TENANT_DESCRIPTION", "Created via automation script")
+    verify_tls = os.getenv("AVI_VERIFY_TLS", "true").lower() == "true"
 
-    # Create tenant
-    tenant_url = f"{controller_url}/api/tenant"
-    tenant_data = {
-        "name": "test-tenant",
-        "description": "Created via script",
-    }
-    create_resp = session.post(tenant_url, json=tenant_data, verify=False)
+    if not verify_tls:
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-    if create_resp.ok:
-        print("✅ Tenant Created")
-        print(create_resp.json())
-    else:
-        print("❌ Failed to create tenant:", create_resp.text)
-else:
-    print("❌ Login failed:", resp.text)
+    session = requests.Session()
+
+    try:
+        login_response = session.post(
+            f"{controller_url}/login",
+            json={"username": username, "password": password},
+            verify=verify_tls,
+            timeout=20,
+        )
+        login_response.raise_for_status()
+
+        csrf_token = session.cookies.get("csrftoken")
+        if csrf_token:
+            session.headers.update({"X-CSRFToken": csrf_token, "Referer": controller_url})
+
+        create_response = session.post(
+            f"{controller_url}/api/tenant",
+            json={"name": tenant_name, "description": tenant_description},
+            verify=verify_tls,
+            timeout=20,
+        )
+        create_response.raise_for_status()
+    except requests.RequestException as exc:
+        print(f"AVI tenant automation failed: {exc}", file=sys.stderr)
+        return 1
+
+    print(f"Tenant created successfully: {tenant_name}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+

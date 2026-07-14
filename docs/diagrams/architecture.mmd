@@ -1,0 +1,6 @@
+﻿flowchart LR
+    User["Operator config and tenant request"] --> App["Python automation script and Postman collection"]
+    App --> Data["AVI controller session and tenant payload"]
+    App --> Output["Created/managed AVI tenant"]
+    Data --> Output
+

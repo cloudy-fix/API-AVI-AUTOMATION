@@ -1,46 +1,65 @@
 {
-    "info": {
-        "name": "AVI API Automation",
-        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  "info": {
+    "name": "AVI API Automation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "avi_controller_url",
+      "value": "https://avi-controller.example.com"
     },
-    "item": [
-        {
-            "name": "Login",
-            "request": {
-                "method": "POST",
-                "header": [
-                    {
-                        "key": "Content-Type",
-                        "value": "application/json"
-                    }
-                ],
-                "url": {
-                    "raw": "https://avi-controller.local/login"
-                },
-                "body": {
-                    "mode": "raw",
-                    "raw": "{\"username\": \"dummy-user\", \"password\": \"dummy-pass\"}"
-                }
-            }
+    {
+      "key": "avi_username",
+      "value": "replace-with-controller-user"
+    },
+    {
+      "key": "avi_password",
+      "value": "replace-with-controller-password"
+    },
+    {
+      "key": "avi_tenant_name",
+      "value": "test-tenant"
+    }
+  ],
+  "item": [
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{avi_controller_url}}/login"
         },
-        {
-            "name": "Create Tenant",
-            "request": {
-                "method": "POST",
-                "header": [
-                    {
-                        "key": "Content-Type",
-                        "value": "application/json"
-                    }
-                ],
-                "url": {
-                    "raw": "https://avi-controller.local/api/tenant"
-                },
-                "body": {
-                    "mode": "raw",
-                    "raw": "{\"name\": \"test-tenant\", \"description\": \"Created via Postman\"}"
-                }
-            }
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"{{avi_username}}\", \"password\": \"{{avi_password}}\"}"
         }
-    ]
+      }
+    },
+    {
+      "name": "Create Tenant",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{avi_controller_url}}/api/tenant"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"{{avi_tenant_name}}\", \"description\": \"Created via Postman\"}"
+        }
+      }
+    }
+  ]
 }
+

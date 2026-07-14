@@ -1,0 +1,6 @@
+﻿flowchart TD
+    S1["Load environment config"] --> S2["Authenticate to AVI controller"]
+    S2["Authenticate to AVI controller"] --> S3["Prepare tenant payload"]
+    S3["Prepare tenant payload"] --> S4["Call tenant API"]
+    S4["Call tenant API"] --> S5["Report provisioning result"]
+
