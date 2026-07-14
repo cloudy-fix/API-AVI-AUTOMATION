@@ -1,0 +1,112 @@
+﻿{
+    "visibility":  "Public",
+    "sample":  {
+                   "tenant":  "prod-app-tenant",
+                   "flow":  [
+                                "Authenticate",
+                                "Build tenant payload",
+                                "Submit API call",
+                                "Validate response",
+                                "Record artifact"
+                            ],
+                   "controller":  "https://avi-controller.example.local"
+               },
+    "endpoints":  [
+                      {
+                          "method":  "POST",
+                          "path":  "/api/tenant",
+                          "purpose":  "Create tenant"
+                      },
+                      {
+                          "method":  "GET",
+                          "path":  "/api/tenant",
+                          "purpose":  "List tenants"
+                      },
+                      {
+                          "method":  "PUT",
+                          "path":  "/api/tenant/{uuid}",
+                          "purpose":  "Update tenant"
+                      },
+                      {
+                          "method":  "DELETE",
+                          "path":  "/api/tenant/{uuid}",
+                          "purpose":  "Delete tenant"
+                      }
+                  ],
+    "category":  "Cloud Networking Automation",
+    "accent":  "#1d4ed8",
+    "runtime":  "GitHub Pages hosts the safe request builder. Real controller calls are run from the Python scripts or Postman collection with secured credentials.",
+    "docs":  [
+                 {
+                     "label":  "Repository",
+                     "url":  "https://github.com/cloudy-fix/API-AVI-AUTOMATION",
+                     "note":  "Source, commits, issues, and project files"
+                 },
+                 {
+                     "label":  "Architecture",
+                     "url":  "https://github.com/cloudy-fix/API-AVI-AUTOMATION/blob/main/docs/ARCHITECTURE.md",
+                     "note":  "System design and responsibilities"
+                 },
+                 {
+                     "label":  "Operations",
+                     "url":  "https://github.com/cloudy-fix/API-AVI-AUTOMATION/blob/main/docs/OPERATIONS.md",
+                     "note":  "Runbook and deployment notes"
+                 },
+                 {
+                     "label":  "Workflow Diagram",
+                     "url":  "https://github.com/cloudy-fix/API-AVI-AUTOMATION/blob/main/docs/diagrams/workflow.mmd",
+                     "note":  "End-to-end process map"
+                 },
+                 {
+                     "label":  "Architecture Diagram",
+                     "url":  "https://github.com/cloudy-fix/API-AVI-AUTOMATION/blob/main/docs/diagrams/architecture.mmd",
+                     "note":  "Component-level diagram"
+                 }
+             ],
+    "repo":  "API-AVI-AUTOMATION",
+    "links":  {
+                  "pages":  "https://cloudy-fix.github.io/API-AVI-AUTOMATION/",
+                  "portfolio":  "https://cloudy-fix.github.io/portfolio/projects.html",
+                  "repo":  "https://github.com/cloudy-fix/API-AVI-AUTOMATION"
+              },
+    "stack":  [
+                  "Python requests",
+                  "Postman",
+                  "VMware AVI",
+                  "REST APIs",
+                  "Tenant Automation"
+              ],
+    "metrics":  [
+                    {
+                        "label":  "API Coverage",
+                        "detail":  "Create, list, update, delete",
+                        "value":  "CRUD tenant"
+                    },
+                    {
+                        "label":  "Credential Mode",
+                        "detail":  "No secrets in repo",
+                        "value":  "Safe dummy data"
+                    },
+                    {
+                        "label":  "Execution",
+                        "detail":  "Repeatable automation",
+                        "value":  "Postman + Python"
+                    }
+                ],
+    "accentTwo":  "#f97316",
+    "highlights":  [
+                       "Builds tenant API payloads",
+                       "Documents safe dummy-data usage",
+                       "Supports operations discussion for load balancer automation"
+                   ],
+    "components":  [
+                       "Postman collection",
+                       "Environment file",
+                       "Python script",
+                       "AVI Controller API",
+                       "Screenshots/artifacts"
+                   ],
+    "demoType":  "avi",
+    "mission":  "A production-style VMware AVI API automation console for tenant workflows, request payloads, and Postman/Python execution patterns.",
+    "title":  "AVI Load Balancer API Automation"
+}
